@@ -19,7 +19,7 @@ public class MemeUtil {
      static List<BufferedImage> postedMemes = new ArrayList<>();
 
     private static BufferedImage getMeme() throws IOException {
-        InputStream is = new URL("https://meme-api.herokuapp.com/gimme").openStream();
+        InputStream is = new URL("https://meme-api.herokuapp.com/gimme/dankmemes").openStream();
         BufferedReader rd = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
         StringBuilder sb = new StringBuilder();
         int cp;

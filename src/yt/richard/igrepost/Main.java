@@ -11,7 +11,7 @@ import static yt.richard.igrepost.utils.MemeUtil.postMeme;
 public class Main {
 
     public static Instagram4j instagram;
-    public static Properties config;
+    public static Properties config = new Properties();
 
     public static void main(String[] args) {
         try {
