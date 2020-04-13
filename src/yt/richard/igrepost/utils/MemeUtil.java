@@ -5,13 +5,9 @@ import static yt.richard.igrepost.Main.instance;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import javax.imageio.ImageIO;
@@ -46,14 +42,8 @@ public class MemeUtil {
 
     private static Meme getMeme() throws IOException {
         Logger.log("Getting new meme...");
-        InputStream is = new URL("https://meme-api.herokuapp.com/gimme/dankmemes").openStream();
-        BufferedReader rd = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
-        StringBuilder sb = new StringBuilder();
-        int cp;
-        while ((cp = rd.read()) != -1) {
-            sb.append((char) cp);
-        }
-        JSONObject yot = new JSONObject(sb.toString());
+
+        JSONObject yot = JsonUtil.retrieveJsonObject("https://meme-api.herokuapp.com/gimme/dankmemes");
 
         Meme meme = new Meme();
         meme.title = yot.getString("title");
@@ -78,7 +68,8 @@ public class MemeUtil {
         File tempImage = new File("temp.jpg");
         ImageIO.write(tempMeme.getImage(), "jpg", tempImage);
         Logger.log("Posting meme!");
-        String desc = tempMeme.getTitle() + "\nThis meme was taken from " + tempMeme.getURL() + "\n\n#pronouncingthingsincorrectly #stolenmeme #whatsgood #rocketfuelcantmeltdankmemes #stolenmemes #newmemes #cancerousmemes #wholesomememes #yeetmemes #aesthetic #ifunny #goodmemes #funnyvids #hilariousvideos #sendthistoyourcrushwithnocontext #funnyedits #noteforself #odlysatisfying #dankmemes #nichememesdaily";
+        String hashtags = String.join(" ", HashtagUtil.getHashtags());
+        String desc = tempMeme.getTitle() + "\nThis meme was taken from " + tempMeme.getURL() + "\n\n" + hashtags;
         String status = instance.sendRequest(new InstagramUploadPhotoRequest(tempImage, desc, null)).getMessage();
         //noinspection ResultOfMethodCallIgnored
         tempImage.delete();
