@@ -15,18 +15,21 @@ import org.brunocvcunha.instagram4j.requests.InstagramUploadPhotoRequest;
 import org.json.JSONObject;
 
 class Meme {
-    String title = null;
-    String url = null;
-    BufferedImage image = null;
+    private String title = null;
+    private String url = null;
+    private BufferedImage image = null;
 
     String getTitle() { return this.title; }
     String getURL() { return url; }
     BufferedImage getImage() { return this.image; }
+    void setTitle(String title) { this.title = title; }
+    void setURL(String url) { this.url = url; }
+    void setImage(BufferedImage image) { this.image = image; }
 }
 
 public class MemeUtil {
 
-    static List<Meme> postedMemes = new ArrayList<>();
+    static List<String> postedMemes = new ArrayList<>();
 
     private static BufferedImage resize(BufferedImage img) {
         int new_width = 1000;
@@ -43,18 +46,18 @@ public class MemeUtil {
     private static Meme getMeme() throws IOException {
         Logger.log("Getting new meme...");
 
-        JSONObject yot = JsonUtil.retrieveJsonObject("https://meme-api.herokuapp.com/gimme/dankmemes");
+        JSONObject json = JsonUtil.retrieveJsonObject("https://meme-api.herokuapp.com/gimme/dankmemes");
 
         Meme meme = new Meme();
-        meme.title = yot.getString("title");
-        meme.url = yot.getString("postLink");
-        meme.image = resize(ImageIO.read(new URL(yot.getString("url")))); // resize image to 1000x1000 to not encounter format problems
+        meme.setTitle(json.getString("title"));
+        meme.setURL(json.getString("postLink"));
+        meme.setImage(resize(ImageIO.read(new URL(json.getString("url")))));
 
         Logger.log("Checking if meme was already posted...");
-        if(postedMemes.contains(meme)) {
+        if(postedMemes.contains(meme.getURL())) {
             getMeme();
         } else {
-            postedMemes.add(meme);
+            postedMemes.add(meme.getURL());
         }
         if(postedMemes.size() > 50) {
             postedMemes.remove(0);
