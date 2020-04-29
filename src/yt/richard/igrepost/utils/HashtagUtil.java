@@ -13,8 +13,7 @@ public class HashtagUtil {
   public static List<String> getDynamicHashtags() throws IOException {
     List<String> hashtags = new ArrayList<>();
     String keywords = ConfigManager.config.getProperty("keywords");
-    Document doc = Jsoup
-        .connect("https://app.sistrix.com/app_instagram/_result/lang/de?tag=" + keywords).get();
+    Document doc = Jsoup.connect("https://app.sistrix.com/app_instagram/_result/lang/de?tag=" + keywords).get();
     Elements tagsList = doc.getElementsByClass("instatag instatext");
     tagsList.forEach(tag -> hashtags.add(tag.html()));
     return hashtags;
