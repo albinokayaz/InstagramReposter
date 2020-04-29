@@ -55,7 +55,7 @@ public class MemeUtil {
 
         Logger.log("Checking if meme was already posted...");
         if(postedMemes.contains(meme.getURL())) {
-            getMeme();
+            return getMeme();
         } else {
             postedMemes.add(meme.getURL());
         }
@@ -71,8 +71,10 @@ public class MemeUtil {
         File tempImage = new File("temp.jpg");
         ImageIO.write(tempMeme.getImage(), "jpg", tempImage);
         Logger.log("Posting meme!");
-        String hashtags = String.join(" ", HashtagUtil.getHashtags());
-        String desc = tempMeme.getTitle() + "\nThis meme was taken from " + tempMeme.getURL() + "\n\n" + hashtags;
+        String hashtags = String.join(" ", HashtagUtil.getDynamicHashtags());
+        String desc =
+            tempMeme.getTitle() + "\nThis meme was taken from " + tempMeme.getURL() + "\n\n"
+                + hashtags;
         String status = instance.sendRequest(new InstagramUploadPhotoRequest(tempImage, desc, null)).getMessage();
         //noinspection ResultOfMethodCallIgnored
         tempImage.delete();

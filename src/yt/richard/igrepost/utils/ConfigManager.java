@@ -50,6 +50,11 @@ public class ConfigManager {
       String maxdelay = scanner.next();
       config.setProperty("maxdelay", maxdelay);
 
+      System.out.println(
+          "What keywords should be used for the dynamic hashtags? (comma seperated, eg 'meme,dankmemes'");
+      String keywords = scanner.next();
+      config.setProperty("keywords", keywords);
+
       config.storeToXML(os, null);
     } catch (IOException ex) {
       throw new RuntimeException(ex);

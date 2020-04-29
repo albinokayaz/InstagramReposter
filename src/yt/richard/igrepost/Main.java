@@ -5,7 +5,6 @@ import static yt.richard.igrepost.utils.MemeUtil.postMeme;
 import java.io.IOException;
 import java.util.Random;
 import org.apache.log4j.Level;
-import org.apache.log4j.LogManager;
 import org.brunocvcunha.instagram4j.Instagram4j;
 import yt.richard.igrepost.utils.ConfigManager;
 import yt.richard.igrepost.utils.InstagramUtil;
@@ -18,7 +17,12 @@ public class Main {
 
     public static void main(String[] args) {
         try {
-            LogManager.getRootLogger().setLevel(Level.OFF);
+            org.apache.log4j.Logger.getLogger("org.brunocvcunha")
+                .setLevel(Level.OFF); // Disable i4j logs
+            org.apache.log4j.Logger.getLogger("org.brunocvcunha.instagram4j").setLevel(Level.OFF);
+
+            System.setProperty("http.agent",
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.129 Safari/537.36");
 
             ConfigManager.initiate();
 
