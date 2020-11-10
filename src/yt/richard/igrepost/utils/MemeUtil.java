@@ -72,7 +72,7 @@ public class MemeUtil {
         ImageIO.write(tempMeme.getImage(), "jpg", tempImage);
         Logger.log("Posting meme!");
         String hashtags = String.join(" ", HashtagUtil.getDynamicHashtags());
-        String desc = tempMeme.getTitle() + "\nThis meme was taken from " + tempMeme.getURL() + "\n\n" + hashtags;
+        String desc = tempMeme.getTitle() + hashtags;
         String status = instance.sendRequest(new InstagramUploadPhotoRequest(tempImage, desc, null)).getMessage();
         //noinspection ResultOfMethodCallIgnored
         tempImage.delete();
